@@ -19,12 +19,9 @@ import PieChart from './PieChart'
 import { Modal } from './Modal_removeFriend'
 import { declineInvitation, acceptInvitation, sendInvitation, removeFriend, areFriends } from '../routes/friendsRoute'
 import { getFriendFavourites, getFriendRated } from '../routes/movieRoutes'
-require('dotenv').config();
-
-const backendURL = process.env.REACT_APP_BACKEND_URL;
 
 const api = axios.create({
-    baseURL: backendURL + "movies",
+    baseURL: "http://localhost:5000/api/movies",
     withCredentials: true
   })
 

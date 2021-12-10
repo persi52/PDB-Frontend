@@ -19,14 +19,10 @@ import "../css/starrating.css"
 import { addRating, getUserRate } from '../routes/ratingRoute';
 //import { useAlert } from 'react-alert'
 import {Link} from 'react-router-dom'
-require('dotenv').config();
-
-const backendURL = process.env.REACT_APP_BACKEND_URL;
-
 
 
 const commentsApi = axios.create({
-    baseURL: backendURL + "comments",
+    baseURL: "http://localhost:5000/api/comments",
     withCredentials: true
 })
 
