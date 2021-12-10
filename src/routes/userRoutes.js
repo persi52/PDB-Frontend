@@ -83,3 +83,10 @@ export function getCurrentUser(){
     }).then(data=>data);
     return data;
   }
+
+  export function changeProfilePic(newProfilePicture){
+    let data = userApi.post('/account/changePicture',{
+      newProfilePicture: newProfilePicture
+    }).then(data=>data);
+    return data;
+  }
