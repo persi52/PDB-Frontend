@@ -164,7 +164,7 @@ function Player({match}) {
             <section className=" container">
         <div className="movie-player-container">
             <div className="movie-player">
-                <video id="videoPlayer" width="100%" controls muted="muted" autoPlay src={`${process.env.REACT_APP_BACKEND_URL}/stream/play/${match.params.id}`} type="video/mp4"></video>
+                <video id="videoPlayer" width="100%" controls muted="muted" autoPlay src={`${process.env.REACT_APP_BACKEND_URL}stream/play/${match.params.id}`} type="video/mp4"></video>
             </div>
             <div className="movie-info-box">
                 <div className="movie-rating-info">
