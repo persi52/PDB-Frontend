@@ -81,6 +81,7 @@ export function getCurrentUser(){
       newPassword: newPassword,
       repeatNewPassword: repeatNewPassword
     }).then(data=>data);
+    console.log(data);
     return data;
   }
 
