@@ -13,3 +13,7 @@ export async function getComments(movie_id) {
     let data = await commentsApi.get(`/get/`+movie_id).then(({data}) => data);
     return data;
 }
+
+export async function addComment(comment) {
+    await commentsApi.post('/add',comment).then((resp)=>{return resp.status})
+}
