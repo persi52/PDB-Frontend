@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import {getMovieById, addToFavourites, removeFromFavourites, addToWatch, removeFromWatch, isFavourite, isTooWatch} from '../routes/movieRoutes'
 import * as commentsApi from '../routes/commentRoute'
 import {getCurrentUser} from '../routes/userRoutes'
+import { getUserCommentLike, getComments} from '../routes/commentRoute'
 import { getRatingsByMovieId } from '../routes/ratingRoute'
 import '../css/reset.css'
 import '../css/style.css'
@@ -10,16 +11,16 @@ import "../css/comments.css"
 import angleSmallRight from "../icons/angle-small-right.png"
 import thumbsUp from "../icons/thumbs-up.png"
 import thumbsDown from "../icons/thumbs-down.png"
+import thumbsUpActive from "../icons/thumbs-up-active.png"
+import thumbsDownActive from "../icons/thumbs-down-active.png"
 import commentIcon from "../icons/comment.png"
 import following from "../icons/following.png"
-import axios from 'axios'
 import { Modal } from "./Modal_recommend";
 import { FaStar, FaRegHeart, FaRegEye } from 'react-icons/fa'
 import "../css/starrating.css"
 import { addRating, getUserRate } from '../routes/ratingRoute';
 //import { useAlert } from 'react-alert'
 import {Link} from 'react-router-dom'
-require('dotenv').config();
 
 
 function Player({match}) {
@@ -27,6 +28,7 @@ function Player({match}) {
     const profileUrl = "/profile/";
    // const alert = useAlert();
 
+    const [user, setUser] = useState([]);
     const [movie, setMovie] = useState([]);
     const [comments, setComments] = useState([]); 
     const [showModal, setShowModal] = useState(false);
@@ -35,8 +37,8 @@ function Player({match}) {
     const [rating, setRating] = useState(null);
     const [isFavoutite, setIsFavourite] = useState(false);
     const [isToWatch, setIsToWatch] = useState(false);
-    const [user, setUser] = useState();
-
+    const [state, updateState] = useState()
+    const forceUpdate = React.useCallback(() => updateState({}), []);
 
 
     const openModal = () => {
@@ -44,17 +46,16 @@ function Player({match}) {
     };
 
     useEffect(() =>{
+        //getCommentLikes(1).then(resp=>setLikes(resp))
+        getCurrentUser().then(resp=>{setUser(resp)})
         getMovieById(match.params.id).then(resp=>{setMovie(resp)});
-        commentsApi.getComments(match.params.id).then(resp=>{setComments(resp)});
+        getComments(match.params.id).then(resp=>{setComments(resp)});
         getRatingsByMovieId(match.params.id).then(resp=>{
             if(resp==='No rates'){setRatingAvg({averageRate: 'Brak ocen', ratesAmount: '1'})}
             else {setRatingAvg(resp)}})
         getUserRate(match.params.id).then((resp)=>{setRating(resp)});
         isFavourite(match.params.id).then(resp=>setIsFavourite(resp));
         isTooWatch(match.params.id).then(resp=>setIsToWatch(resp));
-        getCurrentUser().then(resp=>setUser(resp));
-        console.log(user);
-        
     }, [match.params.id]);   
 
     function buttonFavourites(){
@@ -140,7 +141,8 @@ function Player({match}) {
     function showComments(){
         if(comments!=="No comments"){
         return(comments.map(comment => (
-            <div key={comment.comment_id} class="comment-item">            
+            <div key={comment.comment_id} class="comment-item">    
+                  
                 <div class="comment-avatar">
                 <Link to={profileUrl + `${comment.user_id}`} style={{textDecoration: "none", color:"white"}}> <img src={`${process.env.PUBLIC_URL}/photos/${comment.profile_picture}`} alt='avatar' className="comment-avatar-image"/></Link>
                 </div>
@@ -148,15 +150,77 @@ function Player({match}) {
                 <Link to={profileUrl + `${comment.user_id}`} style={{textDecoration: "none", color:"white"}}><h3 class="author"> {comment.nickname} </h3></Link>
                     <div class="comment-content comment-content-bg">
                         <span class="comment-content-text"> {comment.comment_content} </span>
+                        
                         <div class="comment-action-buttons">
-                            <button id="like" class="movie-btn comment-action-btn"><img src={thumbsUp} class="comment-btn-img" alt="Like button"/></button>
-                            <button id="dislike" class="movie-btn comment-action-btn"><img src={thumbsDown} class="comment-btn-img" alt="Dislike button"/></button>
-                            <button id="comment" class="movie-btn comment-action-btn"><img src={commentIcon} class="comment-btn-img" alt="Comment button"/></button>
-                        </div>
+                            {console.log(comment)}
+                    <button id="like" class="movie-btn comment-action-btn" type="button" onClick={()=>{addDeleteCommentLike(comment.comment_id)}}><img src={comment.is_positive===true ? thumbsUpActive : thumbsUp} class="comment-btn-img" alt="Like button"/></button>
+                    <button id="dislike" class="movie-btn comment-action-btn" type="button" onClick={()=>{addDeleteCommentUnlike(comment.comment_id)}}><img src={comment.is_positive===false ? thumbsDownActive : thumbsDown} class="comment-btn-img" alt="Dislike button"/></button>             
+                    </div>
+                            
                     </div>
                 </div>
             </div>
             )))}
+    }
+    
+    function showCommentLikeButtons(comment){
+        //console.log(comment)
+            if(comment.is_positive===null){
+                return(
+                    <div class="comment-action-buttons">
+                    <button id="like" class="movie-btn comment-action-btn" type="button" onClick={()=>{addDeleteCommentLike(comment.comment_id)}}><img src={thumbsUp} class="comment-btn-img" alt="Like button"/></button>
+                    <button id="dislike" class="movie-btn comment-action-btn" type="button" onClick={()=>{addDeleteCommentUnlike(comment.comment_id)}}><img src={thumbsDown} class="comment-btn-img" alt="Dislike button"/></button>             
+                    </div>
+                )
+            }else if(comment.is_positive===true){
+                //console.log('show')
+                return(
+                    <div class="comment-action-buttons">
+                    <button id="like" class="movie-btn comment-action-btn" type="button" onClick={()=>{addDeleteCommentLike(comment.comment_id)}}><img src={thumbsUpActive} class="comment-btn-img" alt="Like button"/></button>
+                    <button id="dislike" class="movie-btn comment-action-btn" type="button" onClick={()=>{addDeleteCommentUnlike(comment.comment_id)}}><img src={thumbsDown} class="comment-btn-img" alt="Dislike button"/></button>             
+                    </div>
+                )
+            }else{
+                //console.log('show')
+                return(
+                    <div class="comment-action-buttons">
+                    <button id="like" class="movie-btn comment-action-btn" type="button" onClick={()=>{addDeleteCommentLike(comment.comment_id).then(forceUpdate())}}><img src={thumbsUp} class="comment-btn-img" alt="Like button"/></button>
+                    <button id="dislike" class="movie-btn comment-action-btn" type="button" onClick={()=>{addDeleteCommentUnlike(comment.comment_id).then(forceUpdate())}}><img src={thumbsDownActive} class="comment-btn-img" alt="Dislike button"/></button>             
+                    </div>
+                )
+            }
+            
+        
+    }
+
+    const addDeleteCommentLike = async (comment_id)=>{
+        await commentsApi.getUserCommentLike(comment_id).then(resp=>{
+            if(resp.data==='No like') {commentsApi.addCommentLike(true,comment_id);console.log('Dodano like')}
+        else if(resp.data.is_positive===true) {commentsApi.deleteCommentLike(comment_id);console.log('Usunięto like')}
+            else{
+                commentsApi.deleteCommentLike(comment_id);
+                commentsApi.addCommentLike(true,comment_id);
+                console.log('Zmieniono like')
+            }
+        })
+        await commentsApi.getComments(match.params.id).then(resp=>{setComments(resp);console.log('state')});
+        forceUpdate()
+
+    }
+
+    const addDeleteCommentUnlike = async (comment_id)=>{
+        await commentsApi.getUserCommentLike(comment_id).then(resp=>{
+            //console.log(resp)
+            if(resp.data==='No like') {commentsApi.addCommentLike(false,comment_id);console.log('Dodano like')}
+        else if(resp.data.is_positive===false) {commentsApi.deleteCommentLike(comment_id);console.log('Usunięto like')}
+            else{
+                commentsApi.deleteCommentLike(comment_id);
+                commentsApi.addCommentLike(false,comment_id);
+                console.log('Zmieniono like')
+            }
+        })
+        await commentsApi.getComments(match.params.id).then(resp=>{setComments(resp)});
+        forceUpdate()
     }
 
     return (
@@ -164,7 +228,7 @@ function Player({match}) {
             <section className=" container">
         <div className="movie-player-container">
             <div className="movie-player">
-                <video id="videoPlayer" width="100%" controls muted="muted" autoPlay src={`${process.env.REACT_APP_BACKEND_URL}stream/play/${match.params.id}`} type="video/mp4"></video>
+                <video id="videoPlayer" width="100%" controls muted="muted" autoPlay src={`http://localhost:5000/api/stream/play/${match.params.id}`} type="video/mp4"></video>
             </div>
             <div className="movie-info-box">
                 <div className="movie-rating-info">
@@ -172,6 +236,7 @@ function Player({match}) {
                     <div className="star-rating">
                         {StarRating(movie.movie_id)}
                         ({ratingAvg.averageRate})
+
                     </div>
                     
                 </div>
@@ -190,14 +255,14 @@ function Player({match}) {
 
     <section class="comments container"> 
         <div class="comments-header">
-            <img src={commentIcon} class="comment-icon" width="35px" height="35px" alt="Comment icon" />
+            <img src={commentIcon} class="comment-icon"  alt="Comment icon" />
             <h1>Komentarze</h1>
         </div>
 
         <div class="comments-container">
             <div class="comment-form">
                 <div class="comment-avatar">
-                    <img src={`${process.env.PUBLIC_URL}/photos/avatar9.png`} alt='avatar' className="comment-avatar-image"/>
+                    <img src={`${process.env.PUBLIC_URL}/photos/${user.profile_picture}`} alt='avatar' className="comment-avatar-image"/>
                 </div>
                 <form class="comment-form-section-right">
                 <div class="comment-section-right">
