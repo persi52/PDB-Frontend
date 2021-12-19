@@ -2,7 +2,7 @@ import '../css/reset.css'
 import '../css/style.css'
 import '../css/navbar.css'
 import Logo from "../icons/logo.png"
-import {signOut} from '../routes/userRoute'
+import {signOut} from '../routes/userRoutes'
 
 export function Navbar_logged(user_id) {
 
