@@ -24,7 +24,7 @@ export function getUsers(){
 }
 
 export function signOut(){
-  document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  //document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
   //window.location.href="/";
   authApi.delete('/signOut');
 }
@@ -48,7 +48,7 @@ export async function getCurrentUser(){
         email: email,
         password: password
     }).then(data => data);
-  document.cookie = `token=${data.data.token}`;
+  //document.cookie = `token=${data.data.token}`;
   window.location.href="/";
   return data;
   }
