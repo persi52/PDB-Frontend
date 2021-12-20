@@ -24,7 +24,7 @@ export const ModalPassword = ({setpasswordForm}) => {
                 </div>
             </div>
               
-              <button type="button" className="form-edit-button btn" onClick={()=>{changePassword();setpasswordForm(false);alert.show('Hasło zostało zmienione.')}}>Zapisz</button>
+              <button type="button" className="form-edit-button btn" onClick={async ()=>{await changePassword();setpasswordForm(false);alert.show('Hasło zostało zmienione.')}}>Zapisz</button>
           </form>
   )
 };

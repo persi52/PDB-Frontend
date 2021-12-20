@@ -228,7 +228,7 @@ function Player({match}) {
             <section className=" container">
         <div className="movie-player-container">
             <div className="movie-player">
-                <video id="videoPlayer" width="100%" controls muted="muted" autoPlay src={`http://localhost:5000/api/stream/play/${match.params.id}`} type="video/mp4"></video>
+                <video id="videoPlayer" width="100%" controls muted="muted" autoPlay src={`https://cryptic-sea-64674.herokuapp.com/api/stream/play/${match.params.id}`} type="video/mp4"></video>
             </div>
             <div className="movie-info-box">
                 <div className="movie-rating-info">
