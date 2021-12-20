@@ -18,7 +18,7 @@ export function Navbar_logged(user_id) {
                 <a href="/favourities" className='nav-link'>Moja lista</a>
                 <a href="/notifications" className='nav-link'>Powiadomienia</a>
                 <a href={`/myprofile`} className='nav-link' >Mój profil</a>  
-                <a style="cursor:pointer" onClick={async () => await signOut()} classname='nav-link' >Wyloguj się</a>
+                <a onClick={async () => await signOut()} classname='nav-link' >Wyloguj się</a>
             </div>
             
         </div>
