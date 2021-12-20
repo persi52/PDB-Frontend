@@ -16,7 +16,8 @@ const recommendApi = axios.create({
 
 const authApi = axios.create({
   baseURL: backendURL + "auth",
-  withCredentials: true
+  withCredentials: true,
+  credentials: 'include'
 })
 
 export function getUsers(){
@@ -25,9 +26,9 @@ export function getUsers(){
 }
 
 export function signOut(){
-  document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-  //window.location.href="/";
-  //authApi.delete('/signOut');
+  //document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+ // window.location.href="/";
+  authApi.get('/signOut');
 }
 
 export function getUserById(user_id){
