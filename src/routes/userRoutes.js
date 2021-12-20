@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "react-cookies"
 require('dotenv').config();
 
 const backendURL = process.env.REACT_APP_BACKEND_URL;
@@ -41,6 +42,7 @@ export async function getCurrentUser(){
 }
 
   export async function login(){
+    //const cookie = new Cookies();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
   
@@ -48,8 +50,9 @@ export async function getCurrentUser(){
         email: email,
         password: password
     }).then(data => data);
-    document.cookie = `token=${data.data.token}`;
-  //window.location.href="/";
+    Cookies.save('token',data.data.token )
+    //document.cookie = `token=${data.data.token}`;
+    window.location.href="/";
     return data;
   }
 
