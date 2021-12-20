@@ -30,9 +30,9 @@ export function getUsers(){
 export async function signOut(){
   //document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
  // 
-  authApi.get('/signOut').then( () => window.location.href="/");  
+  let data = await authApi.get('/signOut').then(({data}) => data).then( () => window.location.href="/");  
   //window.location.href="/"
-
+  console.log(data)
 }
 
 export function getUserById(user_id){

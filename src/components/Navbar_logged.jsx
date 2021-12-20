@@ -18,7 +18,7 @@ export function Navbar_logged(user_id) {
                 <a href="/favourities" className='nav-link'>Moja lista</a>
                 <a href="/notifications" className='nav-link'>Powiadomienia</a>
                 <a href={`/myprofile`} className='nav-link' >Mój profil</a>  
-                <a onclick='signOut()' classname='nav-link' href="/">Wyloguj się</a>
+                <button onClick={signOut()} classname='nav-link' href="/">Wyloguj się</button>
             </div>
             
         </div>
