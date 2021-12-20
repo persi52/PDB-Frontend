@@ -17,6 +17,9 @@ import PieChart from './PieChart'
 import { Modal } from './Modal_removeFriend'
 import { declineInvitation, acceptInvitation, sendInvitation, removeFriend, areFriends, coverage, cancelFriendRequest } from '../routes/friendsRoute'
 import { getFriendFavourites, getFriendRated } from '../routes/movieRoutes'
+import {Chart, ArcElement} from 'chart.js'
+
+Chart.register(ArcElement);
 
 function Profile({match}) {
 

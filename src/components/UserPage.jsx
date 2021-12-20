@@ -13,6 +13,10 @@ import * as friendsApi from '../routes/friendsRoute'
 import PieChart from './PieChart'
 import { Modal } from "./Modal_removeFriend";
 import {Link} from 'react-router-dom'
+//import { Chart } from 'react-chartjs-2';
+import {Chart, ArcElement} from 'chart.js'
+
+Chart.register(ArcElement);
 
 const profileUrl = "/profile/";
 
