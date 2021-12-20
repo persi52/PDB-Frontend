@@ -22,6 +22,7 @@
     "swiper": "^7.3.1",
     "web-vitals": "^1.1.2"
   },
+  "proxy": "https://cryptic-sea-64674.herokuapp.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
