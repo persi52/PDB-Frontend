@@ -6,9 +6,9 @@ const backendURL = process.env.REACT_APP_BACKEND_URL;
 const movieApi = axios.create({
     baseURL: backendURL + "movies",
     withCredentials: true
-  })
-
-  export async function getMovieById(movie_id){      
+   })
+ 
+export async function getMovieById(movie_id){      
     let data = await movieApi.get('/getMovie/'+movie_id).then(({data}) => data);
     return data;
 }
@@ -86,4 +86,9 @@ return data;
 export async function getFriendRated(user_id){
 let data = await movieApi.get('/get/rated/'+user_id).then(({data})=>data);
 return data;
+}
+
+export async function getUserSeenGenres(user_id){
+  let data = await testApi.post('/get/graph', {user_id: user_id}).then(({data})=>data);
+  return data;
 }
