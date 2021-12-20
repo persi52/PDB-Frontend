@@ -89,6 +89,6 @@ return data;
 }
 
 export async function getUserSeenGenres(user_id){
-  let data = await testApi.post('/get/graph', {user_id: user_id}).then(({data})=>data);
+  let data = await movieApi.post('/get/graph', {user_id: user_id}).then(({data})=>data);
   return data;
 }
