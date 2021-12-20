@@ -19,7 +19,7 @@ const recommendApi = axios.create({
 const authApi = axios.create({
   baseURL: backendURL + "auth",
   withCredentials: true,
-  credentials: 'include'
+ // credentials: 'include'
 })
 
 export function getUsers(){
@@ -41,7 +41,7 @@ export function getUserById(user_id){
 }
 
 export async function getCurrentUser(){
-  let data = await authApi.get('getCurrentUser').then(({data}) => data);
+  let data = await userApi.get('getCurrentUser').then(({data}) => data);
   console.log(data)
   return data;
 }
