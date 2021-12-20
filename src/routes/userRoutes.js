@@ -49,7 +49,7 @@ export async function getCurrentUser(){
         password: password
     }).then(data => data);
   //document.cookie = `token=${data.data.token}`;
-  window.location.href="/";
+  //window.location.href="/";
   return data;
   }
 
