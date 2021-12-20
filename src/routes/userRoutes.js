@@ -57,7 +57,7 @@ export async function getCurrentUser(){
     }).then(data => data);
    // Cookies.set('token',data.data.token, { sameSite : 'none' , domain : 'https://cryptic-sea-64674.herokuapp.com', secure : true , httpOnly : true})
     //document.cookie = `token=${data.data.token}; Path=/; Domain='.netlify.app';Secure; SameSite=None`;
-    //window.location.href="/";
+    window.location.href="/";
     //localStorage.setItem('token',data.data.token)
     return data;
   }

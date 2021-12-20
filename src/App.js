@@ -3,10 +3,13 @@ import axios from 'axios';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Notifications,NoAccess,  Home, Login, Registration, Player, Navigation, Footer,Navbar_logged, HomeNotLogged, UserPage, Favourites, Profile, EditProfile, Search} from "./components";
 import RegistrationConfirmation from "./components/RegistrationConfirmation";
+require('dotenv').config();
+
+const backendURL = process.env.REACT_APP_BACKEND_URL;
 
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api/users",
+  baseURL: backendURL + "users",
   withCredentials: true
 })
 
@@ -61,5 +64,6 @@ class App extends Component {
     );
   }
 }
+
 
 export default App;
