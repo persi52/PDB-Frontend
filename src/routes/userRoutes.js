@@ -30,8 +30,8 @@ export function getUsers(){
 export async function signOut(){
   //document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
  // 
-  await authApi.get('/signOut')//.then(window.location.href="/");  
-  window.location.href="/"
+  authApi.get('/signOut').then( () => window.location.href="/");  
+  //window.location.href="/"
 
 }
 
