@@ -2,6 +2,8 @@ import axios from "axios";
 import Cookies from "js-cookie"
 require('dotenv').config();
 
+const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
 const backendURL = process.env.REACT_APP_BACKEND_URL;
 console.log(backendURL)
 const userApi = axios.create({
@@ -25,11 +27,12 @@ export function getUsers(){
   return data;
 }
 
-export function signOut(){
+export async function signOut(){
   //document.cookie = "token=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
  // 
-  authApi.get('/signOut').then(window.location.href="/");  
- 
+  await authApi.get('/signOut')//.then(window.location.href="/");  
+  window.location.href="/"
+
 }
 
 export function getUserById(user_id){
@@ -55,6 +58,7 @@ export async function getCurrentUser(){
    // Cookies.set('token',data.data.token, { sameSite : 'none' , domain : 'https://cryptic-sea-64674.herokuapp.com', secure : true , httpOnly : true})
     //document.cookie = `token=${data.data.token}; Path=/; HttpOnly; Secure; SameSite=None`;
     //window.location.href="/";
+    setCookie('token',data.data.token);
     return data;
   }
 
