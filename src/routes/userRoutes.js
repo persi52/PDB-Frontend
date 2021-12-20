@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cookies from "react-cookies"
+import Cookies from "js-cookie"
 require('dotenv').config();
 
 const backendURL = process.env.REACT_APP_BACKEND_URL;
@@ -50,8 +50,8 @@ export async function getCurrentUser(){
         email: email,
         password: password
     }).then(data => data);
-    Cookies.save('token',data.data.token )
-    //document.cookie = `token=${data.data.token}`;
+   // Cookies.set('token',data.data.token, { sameSite : 'none' , domain : 'https://cryptic-sea-64674.herokuapp.com', secure : true , httpOnly : true})
+   document.cookie = `token=${data.data.token}; Domain=https://cryptic-sea-64674.herokuapp.com; Path=/; HttpOnly; Secure; SameSite=None`;
     window.location.href="/";
     return data;
   }
